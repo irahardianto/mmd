@@ -53,10 +53,10 @@ spec:
           - containerPort: {{ .Values.checkoutService.ports.containerPort }}
           readinessProbe:
             exec:
-              command: {{ printf "[%q, \"-addr=:%v\"]" .Values.checkoutService.healthChecks.readinessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.readinessProbe.exec.probePort }}
+              command: {{ printf "[%q, \"-addr=:%v\"]" .Values.checkoutService.healthChecks.readinessProbe.exec.probeBinaryPath .Values.checkoutService.healthChecks.readinessProbe.exec.probePort }}
           livenessProbe:
             exec:
-              command: {{ printf "[%q, \"-addr=:%v\"]" .Values.checkoutService.healthChecks.livenessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.livenessProbe.exec.probePort }}
+              command: {{ printf "[%q, \"-addr=:%v\"]" .Values.checkoutService.healthChecks.livenessProbe.exec.probeBinaryPath .Values.checkoutService.healthChecks.livenessProbe.exec.probePort }}
           env:
           - name: PRODUCT_CATALOG_SERVICE_ADDR
             value: {{ .Values.env.productCatalogServiceAddr }}
@@ -102,11 +102,11 @@ spec:
         readinessProbe:
           periodSeconds: {{ .Values.recommendationService.healthChecks.readinessProbe.periodSeconds }}
           exec:
-            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.recommendationService.healthChecks.readinessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.readinessProbe.exec.probePort }}
+            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.recommendationService.healthChecks.readinessProbe.exec.probeBinaryPath .Values.recommendationService.healthChecks.readinessProbe.exec.probePort }}
         livenessProbe:
           periodSeconds: {{ .Values.recommendationService.healthChecks.livenessProbe.periodSeconds }}
           exec:
-            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.recommendationService.healthChecks.livenessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.livenessProbe.exec.probePort }}
+            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.recommendationService.healthChecks.livenessProbe.exec.probeBinaryPath .Values.recommendationService.healthChecks.livenessProbe.exec.probePort }}
         env:
         - name: PRODUCT_CATALOG_SERVICE_ADDR
           value: {{ .Values.env.productCatalogServiceAddr }}
@@ -198,10 +198,10 @@ spec:
         - containerPort: {{ .Values.paymentService.ports.containerPort }}
         readinessProbe:
           exec:
-            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.paymentService.healthChecks.readinessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.readinessProbe.exec.probePort }}
+            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.paymentService.healthChecks.readinessProbe.exec.probeBinaryPath .Values.paymentService.healthChecks.readinessProbe.exec.probePort }}
         livenessProbe:
           exec:
-            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.paymentService.healthChecks.livenessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.livenessProbe.exec.probePort }}
+            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.paymentService.healthChecks.livenessProbe.exec.probeBinaryPath .Values.paymentService.healthChecks.livenessProbe.exec.probePort }}
         resources:
           requests:
             cpu: {{ .Values.paymentService.resources.requests.cpu }}
@@ -231,10 +231,10 @@ spec:
         - containerPort: {{ .Values.productCatalogService.ports.containerPort }}
         readinessProbe:
           exec:
-            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.productCatalogService.healthChecks.readinessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.readinessProbe.exec.probePort }}
+            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.productCatalogService.healthChecks.readinessProbe.exec.probeBinaryPath .Values.productCatalogService.healthChecks.readinessProbe.exec.probePort }}
         livenessProbe:
           exec:
-            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.productCatalogService.healthChecks.livenessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.livenessProbe.exec.probePort }}
+            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.productCatalogService.healthChecks.livenessProbe.exec.probeBinaryPath .Values.productCatalogService.healthChecks.livenessProbe.exec.probePort }}
 #        env:
 #          - name: JAEGER_SERVICE_ADDR
 #            value: {{ .Values.env.jaegerServiceAddr }}
@@ -282,12 +282,12 @@ spec:
         readinessProbe:
           initialDelaySeconds: {{ .Values.cartService.healthChecks.livenessProbe.initialDelaySeconds }}
           exec:
-            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.cartService.healthChecks.readinessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.readinessProbe.exec.probePort }}
+            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.cartService.healthChecks.readinessProbe.exec.probeBinaryPath .Values.cartService.healthChecks.readinessProbe.exec.probePort }}
         livenessProbe:
           initialDelaySeconds: {{ .Values.cartService.healthChecks.livenessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.cartService.healthChecks.livenessProbe.periodSeconds }}
           exec:
-            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.cartService.healthChecks.livenessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.livenessProbe.exec.probePort }}
+            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.cartService.healthChecks.livenessProbe.exec.probeBinaryPath .Values.cartService.healthChecks.livenessProbe.exec.probePort }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -311,10 +311,10 @@ spec:
           containerPort: {{ .Values.currencyService.ports.containerPort }}
         readinessProbe:
           exec:
-            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.currencyService.healthChecks.readinessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.readinessProbe.exec.probePort }}
+            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.currencyService.healthChecks.readinessProbe.exec.probeBinaryPath .Values.currencyService.healthChecks.readinessProbe.exec.probePort }}
         livenessProbe:
           exec:
-            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.currencyService.healthChecks.livenessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.livenessProbe.exec.probePort }}
+            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.currencyService.healthChecks.livenessProbe.exec.probeBinaryPath .Values.currencyService.healthChecks.livenessProbe.exec.probePort }}
         resources:
           requests:
             cpu: {{ .Values.currencyService.resources.requests.cpu }}
@@ -344,10 +344,10 @@ spec:
         readinessProbe:
           periodSeconds: {{ .Values.shippingService.healthChecks.readinessProbe.periodSeconds }}
           exec:
-            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.shippingService.healthChecks.readinessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.readinessProbe.exec.probePort }}
+            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.shippingService.healthChecks.readinessProbe.exec.probeBinaryPath .Values.shippingService.healthChecks.readinessProbe.exec.probePort }}
         livenessProbe:
           exec:
-            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.shippingService.healthChecks.livenessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.livenessProbe.exec.probePort }}
+            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.shippingService.healthChecks.livenessProbe.exec.probeBinaryPath .Values.shippingService.healthChecks.livenessProbe.exec.probePort }}
 #        env:
 #          - name: JAEGER_SERVICE_ADDR
 #            value: {{ .Values.env.jaegerServiceAddr }}
@@ -434,9 +434,9 @@ spec:
           initialDelaySeconds: {{ .Values.adsService.healthChecks.readinessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.adsService.healthChecks.readinessProbe.periodSeconds }}
           exec:
-            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.adsService.healthChecks.readinessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.readinessProbe.exec.probePort }}
+            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.adsService.healthChecks.readinessProbe.exec.probeBinaryPath .Values.adsService.healthChecks.readinessProbe.exec.probePort }}
         livenessProbe:
           initialDelaySeconds: {{ .Values.adsService.healthChecks.livenessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.adsService.healthChecks.livenessProbe.periodSeconds }}
           exec:
-            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.adsService.healthChecks.livenessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.livenessProbe.exec.probePort }}
+            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.adsService.healthChecks.livenessProbe.exec.probeBinaryPath .Values.adsService.healthChecks.livenessProbe.exec.probePort }}

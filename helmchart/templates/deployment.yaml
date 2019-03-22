@@ -53,10 +53,10 @@ spec:
           - containerPort: {{ .Values.checkoutService.ports.containerPort }}
           readinessProbe:
             exec:
-              command: {{ .Values.checkoutService.healthChecks.readinessProbe.exec.command }}
+              command: ["/bin/grpc_health_probe", "-addr=:5050"]
           livenessProbe:
             exec:
-              command: {{ .Values.checkoutService.healthChecks.livenessProbe.exec.command }}
+              command: ["/bin/grpc_health_probe", "-addr=:5050"]
           env:
           - name: PRODUCT_CATALOG_SERVICE_ADDR
             value: {{ .Values.env.productCatalogServiceAddr }}
@@ -102,11 +102,11 @@ spec:
         readinessProbe:
           periodSeconds: {{ .Values.recommendationService.healthChecks.readinessProbe.periodSeconds }}
           exec:
-            command: {{ .Values.recommendationService.healthChecks.readinessProbe.exec.command }}
+            command: ["/bin/grpc_health_probe", "-addr=:8080"]
         livenessProbe:
           periodSeconds: {{ .Values.recommendationService.healthChecks.livenessProbe.periodSeconds }}
           exec:
-            command: {{ .Values.recommendationService.healthChecks.livenessProbe.exec.command }}
+            command: ["/bin/grpc_health_probe", "-addr=:8080"]
         env:
         - name: PRODUCT_CATALOG_SERVICE_ADDR
           value: {{ .Values.env.productCatalogServiceAddr }}

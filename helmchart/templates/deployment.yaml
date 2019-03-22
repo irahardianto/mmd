@@ -20,11 +20,11 @@ spec:
         readinessProbe:
           periodSeconds: {{ .Values.emailService.healthChecks.readinessProbe.periodSeconds }}
           exec:
-            command: {{ .Values.emailService.healthChecks.readinessProbe.exec.command }}}
+            command: {{ .Values.emailService.healthChecks.readinessProbe.exec.command }}
         livenessProbe:
           periodSeconds: {{ .Values.emailService.healthChecks.livenessProbe.periodSeconds }}
           exec:
-            command: {{ .Values.emailService.healthChecks.livenessProbe.exec.command }}}
+            command: {{ .Values.emailService.healthChecks.livenessProbe.exec.command }}
         resources:
           requests:
             cpu: {{ .Values.cartService.resources.requests.cpu }}
@@ -53,10 +53,10 @@ spec:
           - containerPort: {{ .Values.checkoutService.ports.containerPort }}
           readinessProbe:
             exec:
-              command: {{ .Values.checkoutService.healthChecks.readinessProbe.exec.command }}}
+              command: {{ .Values.checkoutService.healthChecks.readinessProbe.exec.command }}
           livenessProbe:
             exec:
-              command: {{ .Values.checkoutService.healthChecks.livenessProbe.exec.command }}}
+              command: {{ .Values.checkoutService.healthChecks.livenessProbe.exec.command }}
           env:
           - name: PRODUCT_CATALOG_SERVICE_ADDR
             value: {{ .Values.env.productCatalogServiceAddr }}
@@ -102,21 +102,21 @@ spec:
         readinessProbe:
           periodSeconds: {{ .Values.recommendationService.healthChecks.readinessProbe.periodSeconds }}
           exec:
-            command: {{ .Values.recommendationService.healthChecks.readinessProbe.exec.command }}}
+            command: {{ .Values.recommendationService.healthChecks.readinessProbe.exec.command }}
         livenessProbe:
           periodSeconds: {{ .Values.recommendationService.healthChecks.livenessProbe.periodSeconds }}
           exec:
-            command: {{ .Values.recommendationService.healthChecks.livenessProbe.exec.command }}}
+            command: {{ .Values.recommendationService.healthChecks.livenessProbe.exec.command }}
         env:
         - name: PRODUCT_CATALOG_SERVICE_ADDR
           value: {{ .Values.env.productCatalogServiceAddr }}
         resources:
             requests:
-              cpu: {{ .Values.recommendationService.resources.requests.cpu }}}
-              memory: {{ .Values.recommendationService.resources.requests.memory }}}
+              cpu: {{ .Values.recommendationService.resources.requests.cpu }}
+              memory: {{ .Values.recommendationService.resources.requests.memory }}
             limits:
-              cpu: {{ .Values.recommendationService.resources.limits.cpu }}}
-              memory: {{ .Values.recommendationService.resources.limits.memory }}}
+              cpu: {{ .Values.recommendationService.resources.limits.cpu }}
+              memory: {{ .Values.recommendationService.resources.limits.memory }}
 ---
 apiVersion: apps/v1
 kind: Deployment

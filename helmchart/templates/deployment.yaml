@@ -18,14 +18,14 @@ spec:
         #image: gcr.io/google-samples/microservices-demo/emailservice:v0.1.0
         image: {{ printf "%s:%s" .Values.emailService.image.repository .Values.emailService.image.tag }}
         ports:
-        - containerPort: 8080
-        #- containerPort: {{ .Values.emailService.ports.containerPort }}
+        #- containerPort: 8080
+        - containerPort: {{ .Values.emailService.ports.containerPort }}
         readinessProbe:
           periodSeconds: 5
           #periodSeconds: {{ .Values.emailService.healthChecks.readinessProbe.periodSeconds }}
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:8080"]
-            #command: {{ .Values.emailService.healthChecks.readinessProbe.exec.command }}
+            #command: ["/bin/grpc_health_probe", "-addr=:8080"]
+            command: {{ printf "[%s, %s]" .Values.emailService.healthChecks.readinessProbe.exec.probeBinary .Values.emailService.healthChecks.readinessProbe.exec.probeAddr }}
         livenessProbe:
           periodSeconds: 5
           #periodSeconds: {{ .Values.emailService.healthChecks.livenessProbe.periodSeconds }}
@@ -33,9 +33,9 @@ spec:
             command: ["/bin/grpc_health_probe", "-addr=:8080"]
             #command: {{ .Values.emailService.healthChecks.livenessProbe.exec.command }}
         resources:
-          #requests:
-          #  cpu: {{ .Values.emailService.resources.requests.cpu }}
-          #  memory: {{ .Values.emailService.resources.requests.memory }}
-          #limits:
-          #  cpu: {{ .Values.emailService.resources.limits.cpu }}
-          #  memory: {{ .Values.emailService.resources.limits.memory }}
+          requests:
+           cpu: {{ .Values.emailService.resources.requests.cpu }}
+           memory: {{ .Values.emailService.resources.requests.memory }}
+          limits:
+           cpu: {{ .Values.emailService.resources.limits.cpu }}
+           memory: {{ .Values.emailService.resources.limits.memory }}

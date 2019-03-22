@@ -11,27 +11,27 @@ spec:
       labels:
         app: emailservice
     spec:
-      terminationGracePeriodSeconds: 5
+      terminationGracePeriodSeconds: {{ .Values.emailService.terminationGracePeriodSeconds }}
       containers:
       - name: server
-        image: gcr.io/google-samples/microservices-demo/emailservice:v0.1.0
+        image: {{ .Values.emailService.image.repository }}':'{{ .Values.emailService.image.tag }}
         ports:
-        - containerPort: 8080
+        - containerPort: {{ .Values.emailService.ports.containerPort }}
         readinessProbe:
-          periodSeconds: 5
+          periodSeconds: {{ .Values.emailService.healthChecks.readinessProbe.periodSeconds }}
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:8080"]
+            command: {{ .Values.emailService.healthChecks.readinessProbe.exec.command }}}
         livenessProbe:
-          periodSeconds: 5
+          periodSeconds: {{ .Values.emailService.healthChecks.livenessProbe.periodSeconds }}
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:8080"]
+            command: {{ .Values.emailService.healthChecks.livenessProbe.exec.command }}}
         resources:
           requests:
-            cpu: 100m
-            memory: 64Mi
+            cpu: {{ .Values.cartService.resources.requests.cpu }}
+            memory: {{ .Values.cartService.resources.requests.memory }}
           limits:
-            cpu: 200m
-            memory: 128Mi
+            cpu: {{ .Values.cartService.resources.limits.cpu }}
+            memory: {{ .Values.cartService.resources.limits.memory }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -48,37 +48,37 @@ spec:
     spec:
       containers:
         - name: server
-          image: gcr.io/google-samples/microservices-demo/checkoutservice:v0.1.0
+          image: {{ .Values.checkoutService.image.repository }}':'{{ .Values.checkoutService.image.tag }}
           ports:
-          - containerPort: 5050
+          - containerPort: {{ .Values.checkoutService.ports.containerPort }}
           readinessProbe:
             exec:
-              command: ["/bin/grpc_health_probe", "-addr=:5050"]
+              command: {{ .Values.checkoutService.healthChecks.readinessProbe.exec.command }}}
           livenessProbe:
             exec:
-              command: ["/bin/grpc_health_probe", "-addr=:5050"]
+              command: {{ .Values.checkoutService.healthChecks.livenessProbe.exec.command }}}
           env:
           - name: PRODUCT_CATALOG_SERVICE_ADDR
-            value: "productcatalogservice:3550"
+            value: {{ .Values.env.productCatalogServiceAddr }}
           - name: SHIPPING_SERVICE_ADDR
-            value: "shippingservice:50051"
+            value: {{ .Values.env.shippingServiceAddr }}
           - name: PAYMENT_SERVICE_ADDR
-            value: "paymentservice:50051"
+            value: {{ .Values.env.paymentServiceAddr }}
           - name: EMAIL_SERVICE_ADDR
-            value: "emailservice:5000"
+            value: {{ .Values.env.emailServiceAddr }}
           - name: CURRENCY_SERVICE_ADDR
-            value: "currencyservice:7000"
+            value: {{ .Values.env.currencyServiceAddr }}
           - name: CART_SERVICE_ADDR
-            value: "cartservice:7070"
+            value: {{ .Values.env.cartServiceAddr }}
           # - name: JAEGER_SERVICE_ADDR
-          #   value: "jaeger-collector:14268"
+          #   value: {{ .Values.env.jaegerServiceAddr }}
           resources:
             requests:
-              cpu: 100m
-              memory: 64Mi
+              cpu: {{ .Values.cartService.resources.requests.cpu }}
+              memory: {{ .Values.cartService.resources.requests.memory }}
             limits:
-              cpu: 200m
-              memory: 128Mi
+              cpu: {{ .Values.cartService.resources.limits.cpu }}
+              memory: {{ .Values.cartService.resources.limits.memory }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -93,30 +93,30 @@ spec:
       labels:
         app: recommendationservice
     spec:
-      terminationGracePeriodSeconds: 5
+      terminationGracePeriodSeconds: {{ .Values.recommendationService.terminationGracePeriodSeconds }}
       containers:
       - name: server
-        image: gcr.io/google-samples/microservices-demo/recommendationservice:v0.1.0
+        image: {{ .Values.recommendationService.image.repository }}':'{{ .Values.recommendationService.image.tag }}
         ports:
-        - containerPort: 8080
+        - containerPort: {{ .Values.recommendationService.ports.containerPort }}
         readinessProbe:
-          periodSeconds: 5
+          periodSeconds: {{ .Values.recommendationService.healthChecks.readinessProbe.periodSeconds }}
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:8080"]
+            command: {{ .Values.recommendationService.healthChecks.readinessProbe.exec.command }}}
         livenessProbe:
-          periodSeconds: 5
+          periodSeconds: {{ .Values.recommendationService.healthChecks.livenessProbe.periodSeconds }}
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:8080"]
+            command: {{ .Values.recommendationService.healthChecks.livenessProbe.exec.command }}}
         env:
         - name: PRODUCT_CATALOG_SERVICE_ADDR
-          value: "productcatalogservice:3550"
+          value: {{ .Values.env.productCatalogServiceAddr }}
         resources:
-          requests:
-            cpu: 100m
-            memory: 220Mi
-          limits:
-            cpu: 200m
-            memory: 450Mi
+            requests:
+              cpu: {{ .Values.recommendationService.resources.requests.cpu }}}
+              memory: {{ .Values.recommendationService.resources.requests.memory }}}
+            limits:
+              cpu: {{ .Values.recommendationService.resources.limits.cpu }}}
+              memory: {{ .Values.recommendationService.resources.limits.memory }}}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -133,49 +133,49 @@ spec:
     spec:
       containers:
         - name: server
-          image: gcr.io/google-samples/microservices-demo/frontend:v0.1.0
+          image: {{ .Values.frontend.image.repository }}':'{{ .Values.frontend.image.tag }}
           ports:
-          - containerPort: 8080
+          - containerPort: {{ .Values.frontend.ports.containerPort }}
           readinessProbe:
-            initialDelaySeconds: 10
+            initialDelaySeconds: {{ .Values.frontend.healthChecks.readinessProbe.initialDelaySeconds }}
             httpGet:
-              path: "/_healthz"
-              port: 8080
+              path: {{ .Values.frontend.healthChecks.readinessProbe.httpGet.path }}
+              port: {{ .Values.frontend.healthChecks.readinessProbe.httpGet.port }}
               httpHeaders:
-              - name: "Cookie"
-                value: "shop_session-id=x-readiness-probe"
+              - name: {{ .Values.frontend.healthChecks.readinessProbe.httpGet.httpHeaders.name }}
+                value: {{ .Values.frontend.healthChecks.readinessProbe.httpGet.httpHeaders.value }}
           livenessProbe:
-            initialDelaySeconds: 10
+            initialDelaySeconds: {{ .Values.frontend.healthChecks.livenessProbe.initialDelaySeconds }}
             httpGet:
-              path: "/_healthz"
-              port: 8080
+              path: {{ .Values.frontend.healthChecks.livenessProbe.httpGet.path }}
+              port: {{ .Values.frontend.healthChecks.livenessProbe.httpGet.port }}
               httpHeaders:
-              - name: "Cookie"
-                value: "shop_session-id=x-liveness-probe"
+              - name: {{ .Values.frontend.healthChecks.livenessProbe.httpGet.httpHeaders.name }}
+                value: {{ .Values.frontend.healthChecks.livenessProbe.httpGet.httpHeaders.value }}
           env:
           - name: PRODUCT_CATALOG_SERVICE_ADDR
-            value: "productcatalogservice:3550"
+            value: {{ .Values.env.productCatalogServiceAddr }}
           - name: CURRENCY_SERVICE_ADDR
-            value: "currencyservice:7000"
+            value: {{ .Values.env.currencyServiceAddr }}
           - name: CART_SERVICE_ADDR
-            value: "cartservice:7070"
+            value: {{ .Values.env.cartServiceAddr }}
           - name: RECOMMENDATION_SERVICE_ADDR
-            value: "recommendationservice:8080"
+            value: {{ .Values.env.recommendationServiceAddr }}
           - name: SHIPPING_SERVICE_ADDR
-            value: "shippingservice:50051"
+            value: {{ .Values.env.shippingServiceAddr }}
           - name: CHECKOUT_SERVICE_ADDR
-            value: "checkoutservice:5050"
+            value: {{ .Values.env.checkoutServiceAddr }}
           - name: AD_SERVICE_ADDR
-            value: "adservice:9555"
+            value: {{ .Values.env.AdServiceAddr }}
           # - name: JAEGER_SERVICE_ADDR
-          #   value: "jaeger-collector:14268"
+          #   value: {{ .Values.env.jaegerServiceAddr }}
           resources:
             requests:
-              cpu: 100m
-              memory: 64Mi
+              cpu: {{ .Values.cartService.resources.requests.cpu }}
+              memory: {{ .Values.cartService.resources.requests.memory }}
             limits:
-              cpu: 200m
-              memory: 128Mi
+              cpu: {{ .Values.cartService.resources.limits.cpu }}
+              memory: {{ .Values.cartService.resources.limits.memory }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -190,25 +190,25 @@ spec:
       labels:
         app: paymentservice
     spec:
-      terminationGracePeriodSeconds: 5
+      terminationGracePeriodSeconds: {{ .Values.paymentService.terminationGracePeriodSeconds }}
       containers:
       - name: server
-        image: gcr.io/google-samples/microservices-demo/paymentservice:v0.1.0
+        image: {{ .Values.paymentService.image.repository }}':'{{ .Values.paymentService.image.tag }}
         ports:
-        - containerPort: 50051
+        - containerPort: {{ .Values.paymentService.ports.containerPort }}
         readinessProbe:
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:50051"]
+            command: {{ .Values.paymentService.healthChecks.readinessProbe.exec.command }}
         livenessProbe:
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:50051"]
+            command: {{ .Values.paymentService.healthChecks.livenessProbe.exec.command }}
         resources:
           requests:
-            cpu: 100m
-            memory: 64Mi
+            cpu: {{ .Values.cartService.resources.requests.cpu }}
+            memory: {{ .Values.cartService.resources.requests.memory }}
           limits:
-            cpu: 200m
-            memory: 128Mi
+            cpu: {{ .Values.cartService.resources.limits.cpu }}
+            memory: {{ .Values.cartService.resources.limits.memory }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -223,28 +223,28 @@ spec:
       labels:
         app: productcatalogservice
     spec:
-      terminationGracePeriodSeconds: 5
+      terminationGracePeriodSeconds: {{ .Values.productCatalogService.terminationGracePeriodSeconds }}
       containers:
       - name: server
-        image: gcr.io/google-samples/microservices-demo/productcatalogservice:v0.1.0
+        image: {{ .Values.productCatalogService.image.repository }}':'{{ .Values.productCatalogService.image.tag }}
         ports:
-        - containerPort: 3550
+        - containerPort: {{ .Values.productCatalogService.ports.containerPort }}
         readinessProbe:
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:3550"]
+            command: {{ .Values.productCatalogService.healthChecks.readinessProbe.exec.command }}
         livenessProbe:
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:3550"]
+            command: {{ .Values.productCatalogService.healthChecks.livenessProbe.exec.command }}
 #        env:
 #          - name: JAEGER_SERVICE_ADDR
-#            value: "jaeger-collector:14268"
+#            value: {{ .Values.env.jaegerServiceAddr }}
         resources:
           requests:
-            cpu: 100m
-            memory: 64Mi
+            cpu: {{ .Values.cartService.resources.requests.cpu }}
+            memory: {{ .Values.cartService.resources.requests.memory }}
           limits:
-            cpu: 200m
-            memory: 128Mi
+            cpu: {{ .Values.cartService.resources.limits.cpu }}
+            memory: {{ .Values.cartService.resources.limits.memory }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -259,35 +259,35 @@ spec:
       labels:
         app: cartservice
     spec:
-      terminationGracePeriodSeconds: 5
+      terminationGracePeriodSeconds: {{ .Values.cartService.terminationGracePeriodSeconds }}
       containers:
       - name: server
-        image: gcr.io/google-samples/microservices-demo/cartservice:v0.1.0
+        image: {{ .Values.cartService.image.repository }}':'{{ .Values.cartService.image.tag }}
         ports:
-        - containerPort: 7070
+        - containerPort: {{ .Values.cartService.ports.containerPort }}
         env:
         - name: REDIS_ADDR
-          value: "redis-cart:6379"
+          value: {{ .Values.env.redisAddr }}
         - name: PORT
           value: "7070"
         - name: LISTEN_ADDR
           value: "0.0.0.0"
         resources:
           requests:
-            cpu: 200m
-            memory: 64Mi
+            cpu: {{ .Values.cartService.resources.requests.cpu }}
+            memory: {{ .Values.cartService.resources.requests.memory }}
           limits:
-            cpu: 300m
-            memory: 128Mi
+            cpu: {{ .Values.cartService.resources.limits.cpu }}
+            memory: {{ .Values.cartService.resources.limits.memory }}
         readinessProbe:
-          initialDelaySeconds: 15
+          initialDelaySeconds: {{ .Values.cartService.healthChecks.livenessProbe.initialDelaySeconds }}
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:7070"]
+            command: {{ .Values.cartService.healthChecks.readinessProbe.exec.command }}
         livenessProbe:
-          initialDelaySeconds: 15
-          periodSeconds: 10
+          initialDelaySeconds: {{ .Values.cartService.healthChecks.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.cartService.healthChecks.livenessProbe.periodSeconds }}
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:7070"]
+            command: {{ .Values.cartService.healthChecks.livenessProbe.exec.command }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -302,26 +302,26 @@ spec:
       labels:
         app: currencyservice
     spec:
-      terminationGracePeriodSeconds: 5
+      terminationGracePeriodSeconds: {{ .Values.currencyService.terminationGracePeriodSeconds }}
       containers:
       - name: server
-        image: gcr.io/google-samples/microservices-demo/currencyservice:v0.1.0
+        image: {{ .Values.currencyService.image.repository }}':'{{ .Values.currencyService.image.tag }}
         ports:
-        - name: grpc
-          containerPort: 7000
+        - name: {{ .Values.currencyService.ports.name }}
+          containerPort: {{ .Values.currencyService.ports.containerPort }}
         readinessProbe:
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:7000"]
+            command: {{ .Values.currencyService.healthChecks.readinessProbe.exec.command }}
         livenessProbe:
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:7000"]
+            command: {{ .Values.currencyService.healthChecks.readinessProbe.exec.command }}
         resources:
           requests:
-            cpu: 100m
-            memory: 64Mi
+            cpu: {{ .Values.currencyService.resources.requests.cpu }}
+            memory: {{ .Values.currencyService.resources.requests.memory }}
           limits:
-            cpu: 200m
-            memory: 128Mi
+            cpu: {{ .Values.currencyService.resources.limits.cpu }}
+            memory: {{ .Values.currencyService.resources.limits.memory }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -338,26 +338,26 @@ spec:
     spec:
       containers:
       - name: server
-        image: gcr.io/google-samples/microservices-demo/shippingservice:v0.1.0
+        image: {{ .Values.shippingService.image.repository }}':'{{ .Values.shippingService.image.tag }}
         ports:
-        - containerPort: 50051
+        - containerPort: {{ .Values.shippingService.ports.containerPort }}
         readinessProbe:
-          periodSeconds: 5
+          periodSeconds: {{ .Values.shippingService.healthChecks.readinessProbe.periodSeconds }}
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:50051"]
+            command: {{ .Values.shippingService.healthChecks.readinessProbe.exec.command }}
         livenessProbe:
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:50051"]
+            command: {{ .Values.shippingService.healthChecks.readinessProbe.exec.command }}
 #        env:
 #          - name: JAEGER_SERVICE_ADDR
-#            value: "jaeger-collector:14268"
+#            value: {{ .Values.env.jaegerServiceAddr }}
         resources:
           requests:
-            cpu: 100m
-            memory: 64Mi
+            cpu: {{ .Values.shippingService.resources.requests.cpu }}
+            memory: {{ .Values.shippingService.resources.requests.memory }}
           limits:
-            cpu: 200m
-            memory: 128Mi
+            cpu: {{ .Values.shippingService.resources.limits.cpu }}
+            memory: {{ .Values.shippingService.resources.limits.memory }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -374,29 +374,29 @@ spec:
     spec:
       containers:
       - name: redis
-        image: redis:alpine
+        image: {{ .Values.redisCart.image.repository }}':'{{ .Values.redisCart.image.tag }}
         ports:
-        - containerPort: 6379
+        - containerPort: {{ .Values.redisCart.ports.containerPort }}
         readinessProbe:
-          periodSeconds: 5
+          periodSeconds: {{ .Values.redisCart.healthChecks.readinessProbe.periodSeconds }}
           tcpSocket:
-            port: 6379
+            port: {{ .Values.redisCart.healthChecks.readinessProbe.tcpSocket.port }}
         livenessProbe:
-          periodSeconds: 5
+          periodSeconds: {{ .Values.redisCart.healthChecks.livenessProbe.periodSeconds }}
           tcpSocket:
-            port: 6379
+            port: {{ .Values.redisCart.healthChecks.livenessProbe.tcpSocket.port }}
         volumeMounts:
-        - mountPath: /data
-          name: redis-data
+        - mountPath: {{ .Values.redisCart.volumeMounts.mountPath }}
+          name: {{ .Values.redisCart.volumeMounts.name }}
         resources:
-          limits:
-            memory: 256Mi
-            cpu: 125m
           requests:
-            cpu: 70m
-            memory: 200Mi
+            cpu: {{ .Values.redisCart.resources.requests.cpu }}
+            memory: {{ .Values.redisCart.resources.requests.memory }}
+          limits:
+            cpu: {{ .Values.redisCart.resources.limits.cpu }}
+            memory: {{ .Values.redisCart.resources.limits.memory }}
       volumes:
-      - name: redis-data
+      - name: {{ .Values.redisCart.volumes.name }}
         emptyDir: {}
 ---
 apiVersion: apps/v1
@@ -415,29 +415,29 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: gcr.io/google-samples/microservices-demo/adservice:v0.1.0
+        image: {{ .Values.adsService.image.repository }}':'{{ .Values.adsService.image.tag }}
         ports:
-        - containerPort: 9555
+        - containerPort: {{ .Values.adsService.ports.containerPort }}
         env:
         - name: PORT
           value: "9555"
         #- name: JAEGER_SERVICE_ADDR
-        #  value: "jaeger-collector:14268"
+        #  value: {{ .Values.env.jaegerServiceAddr }}
         resources:
           requests:
-            cpu: 200m
-            memory: 180Mi
+            cpu: {{ .Values.adsService.resources.requests.cpu }}
+            memory: {{ .Values.adsService.resources.requests.memory }}
           limits:
-            cpu: 300m
-            memory: 300Mi
+            cpu: {{ .Values.adsService.resources.limits.cpu }}
+            memory: {{ .Values.adsService.resources.limits.memory }}
         readinessProbe:
-          initialDelaySeconds: 20
-          periodSeconds: 15
+          initialDelaySeconds: {{ .Values.adsService.healthChecks.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.adsService.healthChecks.readinessProbe.periodSeconds }}
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:9555"]
+            command: {{ .Values.adsService.healthChecks.readinessProbe.exec.command }}
         livenessProbe:
-          initialDelaySeconds: 20
-          periodSeconds: 15
+          initialDelaySeconds: {{ .Values.adsService.healthChecks.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.adsService.healthChecks.livenessProbe.periodSeconds }}
           exec:
-            command: ["/bin/grpc_health_probe", "-addr=:9555"]
+            command: {{ .Values.adsService.healthChecks.livenessProbe.exec.command }}
 ---

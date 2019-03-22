@@ -11,24 +11,31 @@ spec:
       labels:
         app: emailservice
     spec:
+      #terminationGracePeriodSeconds: 5
       terminationGracePeriodSeconds: {{ .Values.emailService.terminationGracePeriodSeconds }}
       containers:
       - name: server
+        #image: gcr.io/google-samples/microservices-demo/emailservice:v0.1.0
         image: {{ printf "%s:%s" .Values.emailService.image.repository .Values.emailService.image.tag }}
         ports:
+        #- containerPort: 8080
         - containerPort: {{ .Values.emailService.ports.containerPort }}
         readinessProbe:
-          periodSeconds: {{ .Values.emailService.healthChecks.readinessProbe.periodSeconds }}
+          periodSeconds: 5
+          #periodSeconds: {{ .Values.emailService.healthChecks.readinessProbe.periodSeconds }}
           exec:
+            #command: ["/bin/grpc_health_probe", "-addr=:8080"]
             command: {{ printf "[%q, \"-addr=:%v\"]" .Values.emailService.healthChecks.readinessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.readinessProbe.exec.probePort }}
         livenessProbe:
-          periodSeconds: {{ .Values.emailService.healthChecks.livenessProbe.periodSeconds }}
+          periodSeconds: 5
+          #periodSeconds: {{ .Values.emailService.healthChecks.livenessProbe.periodSeconds }}
           exec:
-            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.emailService.healthChecks.livenessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.livenessProbe.exec.probePort }}
+            command: ["/bin/grpc_health_probe", "-addr=:8080"]
+            #command: {{ .Values.emailService.healthChecks.livenessProbe.exec.command }}
         resources:
           requests:
-            cpu: {{ .Values.emailService.resources.requests.cpu }}
-            memory: {{ .Values.emailService.resources.requests.memory }}
+           cpu: {{ .Values.emailService.resources.requests.cpu }}
+           memory: {{ .Values.emailService.resources.requests.memory }}
           limits:
-            cpu: {{ .Values.emailService.resources.limits.cpu }}
-            memory: {{ .Values.emailService.resources.limits.memory }}
+           cpu: {{ .Values.emailService.resources.limits.cpu }}
+           memory: {{ .Values.emailService.resources.limits.memory }}

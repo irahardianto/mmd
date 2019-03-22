@@ -48,7 +48,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: {{ .Values.checkoutService.image.repository }}':'{{ .Values.checkoutService.image.tag }}
+          image: "{{ printf "%s:%s" .Values.checkoutservice.image.repository .Values.checkoutservice.image.tag }}"
           ports:
           - containerPort: {{ .Values.checkoutService.ports.containerPort }}
           readinessProbe:
@@ -96,7 +96,7 @@ spec:
       terminationGracePeriodSeconds: {{ .Values.recommendationService.terminationGracePeriodSeconds }}
       containers:
       - name: server
-        image: {{ .Values.recommendationService.image.repository }}':'{{ .Values.recommendationService.image.tag }}
+          image: "{{ printf "%s:%s" .Values.recommendationService.image.repository .Values.recommendationService.image.tag }}"
         ports:
         - containerPort: {{ .Values.recommendationService.ports.containerPort }}
         readinessProbe:
@@ -133,7 +133,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: {{ .Values.frontend.image.repository }}':'{{ .Values.frontend.image.tag }}
+          image: "{{ printf "%s:%s" .Values.frontend.image.repository .Values.frontend.image.tag }}"
           ports:
           - containerPort: {{ .Values.frontend.ports.containerPort }}
           readinessProbe:
@@ -193,7 +193,7 @@ spec:
       terminationGracePeriodSeconds: {{ .Values.paymentService.terminationGracePeriodSeconds }}
       containers:
       - name: server
-        image: {{ .Values.paymentService.image.repository }}':'{{ .Values.paymentService.image.tag }}
+          image: "{{ printf "%s:%s" .Values.paymentService.image.repository .Values.paymentService.image.tag }}"
         ports:
         - containerPort: {{ .Values.paymentService.ports.containerPort }}
         readinessProbe:
@@ -226,7 +226,7 @@ spec:
       terminationGracePeriodSeconds: {{ .Values.productCatalogService.terminationGracePeriodSeconds }}
       containers:
       - name: server
-        image: {{ .Values.productCatalogService.image.repository }}':'{{ .Values.productCatalogService.image.tag }}
+          image: "{{ printf "%s:%s" .Values.productCatalogService.image.repository .Values.productCatalogService.image.tag }}"
         ports:
         - containerPort: {{ .Values.productCatalogService.ports.containerPort }}
         readinessProbe:
@@ -262,7 +262,7 @@ spec:
       terminationGracePeriodSeconds: {{ .Values.cartService.terminationGracePeriodSeconds }}
       containers:
       - name: server
-        image: {{ .Values.cartService.image.repository }}':'{{ .Values.cartService.image.tag }}
+        image: "{{ printf "%s:%s" .Values.cartService.image.repository .Values.cartService.image.tag }}"
         ports:
         - containerPort: {{ .Values.cartService.ports.containerPort }}
         env:
@@ -305,7 +305,7 @@ spec:
       terminationGracePeriodSeconds: {{ .Values.currencyService.terminationGracePeriodSeconds }}
       containers:
       - name: server
-        image: {{ .Values.currencyService.image.repository }}':'{{ .Values.currencyService.image.tag }}
+        image: "{{ printf "%s:%s" .Values.currencyService.image.repository .Values.currencyService.image.tag }}"
         ports:
         - name: {{ .Values.currencyService.ports.name }}
           containerPort: {{ .Values.currencyService.ports.containerPort }}
@@ -338,7 +338,7 @@ spec:
     spec:
       containers:
       - name: server
-        image: {{ .Values.shippingService.image.repository }}':'{{ .Values.shippingService.image.tag }}
+        image: "{{ printf "%s:%s" .Values.shippingService.image.repository .Values.shippingService.image.tag }}"
         ports:
         - containerPort: {{ .Values.shippingService.ports.containerPort }}
         readinessProbe:
@@ -374,7 +374,7 @@ spec:
     spec:
       containers:
       - name: redis
-        image: {{ .Values.redisCart.image.repository }}':'{{ .Values.redisCart.image.tag }}
+        image: "{{ printf "%s:%s" .Values.redisCart.image.repository .Values.redisCart.image.tag }}"
         ports:
         - containerPort: {{ .Values.redisCart.ports.containerPort }}
         readinessProbe:
@@ -415,7 +415,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: {{ .Values.adsService.image.repository }}':'{{ .Values.adsService.image.tag }}
+        image: "{{ printf "%s:%s" .Values.adsService.image.repository .Values.adsService.image.tag }}"
         ports:
         - containerPort: {{ .Values.adsService.ports.containerPort }}
         env:

@@ -110,7 +110,7 @@ frontend:
         path: "/_healthz"
         port: 8080
         httpHeaders:
-        - name: "Cookie"
+          name: "Cookie"
           value: "shop_session-id=x-readiness-probe"
     livenessProbe:
       initialDelaySeconds: 10
@@ -118,7 +118,7 @@ frontend:
         path: "/_healthz"
         port: 8080
         httpHeaders:
-        - name: "Cookie"
+          name: "Cookie"
           value: "shop_session-id=x-liveness-probe"
   resources:
     requests:
@@ -142,11 +142,11 @@ paymentService:
     containerPort: 50051
   healthChecks:
     readinessProbe:
-    exec:
-      command: ["/bin/grpc_health_probe", "-addr=:50051"]
+      exec:
+        command: ["/bin/grpc_health_probe", "-addr=:50051"]
     livenessProbe:
-    exec:
-      command: ["/bin/grpc_health_probe", "-addr=:50051"]
+      exec:
+        command: ["/bin/grpc_health_probe", "-addr=:50051"]
   resources:
     requests:
       cpu: 100m
@@ -169,11 +169,11 @@ productCatalogService:
     containerPort: 3550
   healthChecks:
     readinessProbe:
-    exec:
-      command: ["/bin/grpc_health_probe", "-addr=:3550"]
+      exec:
+        command: ["/bin/grpc_health_probe", "-addr=:3550"]
     livenessProbe:
-    exec:
-      command: ["/bin/grpc_health_probe", "-addr=:3550"]
+      exec:
+        command: ["/bin/grpc_health_probe", "-addr=:3550"]
   resources:
     requests:
       cpu: 100m

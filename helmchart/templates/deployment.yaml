@@ -11,24 +11,31 @@ spec:
       labels:
         app: emailservice
     spec:
-      terminationGracePeriodSeconds: {{ .Values.emailService.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: 5
+      #terminationGracePeriodSeconds: {{ .Values.emailService.terminationGracePeriodSeconds }}
       containers:
       - name: server
-        image: {{ printf "%s:%s" .Values.emailService.image.repository .Values.emailService.image.tag }}
+        image: gcr.io/google-samples/microservices-demo/emailservice:v0.1.0
+        #image: {{ printf "%s:%s" .Values.emailService.image.repository .Values.emailService.image.tag }}
         ports:
-        - containerPort: {{ .Values.emailService.ports.containerPort }}
+        - containerPort: 8080
+        #- containerPort: {{ .Values.emailService.ports.containerPort }}
         readinessProbe:
-          periodSeconds: {{ .Values.emailService.healthChecks.readinessProbe.periodSeconds }}
+          periodSeconds: 5
+          #periodSeconds: {{ .Values.emailService.healthChecks.readinessProbe.periodSeconds }}
           exec:
-            command: {{ .Values.emailService.healthChecks.readinessProbe.exec.command }}
+            command: ["/bin/grpc_health_probe", "-addr=:8080"]
+            #command: {{ .Values.emailService.healthChecks.readinessProbe.exec.command }}
         livenessProbe:
-          periodSeconds: {{ .Values.emailService.healthChecks.livenessProbe.periodSeconds }}
+          periodSeconds: 5
+          #periodSeconds: {{ .Values.emailService.healthChecks.livenessProbe.periodSeconds }}
           exec:
-            command: {{ .Values.emailService.healthChecks.livenessProbe.exec.command }}
+            command: ["/bin/grpc_health_probe", "-addr=:8080"]
+            #command: {{ .Values.emailService.healthChecks.livenessProbe.exec.command }}
         resources:
-          requests:
-            cpu: {{ .Values.cartService.resources.requests.cpu }}
-            memory: {{ .Values.cartService.resources.requests.memory }}
-          limits:
-            cpu: {{ .Values.cartService.resources.limits.cpu }}
-            memory: {{ .Values.cartService.resources.limits.memory }}
+          #requests:
+          #  cpu: {{ .Values.cartService.resources.requests.cpu }}
+          #  memory: {{ .Values.cartService.resources.requests.memory }}
+          #limits:
+          #  cpu: {{ .Values.cartService.resources.limits.cpu }}
+          #  memory: {{ .Values.cartService.resources.limits.memory }}

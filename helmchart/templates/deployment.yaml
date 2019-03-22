@@ -48,7 +48,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: "{{ printf "%s:%s" .Values.checkoutservice.image.repository .Values.checkoutservice.image.tag }}"
+          image: "{{ printf "%s:%s" .Values.checkoutService.image.repository .Values.checkoutService.image.tag }}"
           ports:
           - containerPort: {{ .Values.checkoutService.ports.containerPort }}
           readinessProbe:

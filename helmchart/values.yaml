@@ -23,8 +23,8 @@ emailService:
     readinessProbe:
       periodSeconds: 5
       exec:
-        probeBinary: "/bin/grpc_health_probe"
-        probeAddr: "-addr=:8080"
+        probeBinaryPath: "/bin/grpc_health_probe"
+        probePort: 8080
     livenessProbe:
       periodSeconds: 5
       exec:

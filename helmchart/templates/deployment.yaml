@@ -25,7 +25,7 @@ spec:
           #periodSeconds: {{ .Values.emailService.healthChecks.readinessProbe.periodSeconds }}
           exec:
             #command: ["/bin/grpc_health_probe", "-addr=:8080"]
-            command: {{ printf "[%q, "-addr=:%q"]" .Values.emailService.healthChecks.readinessProbe.exec.probeBinary .Values.emailService.healthChecks.readinessProbe.exec.probeAddr }}
+            command: {{ printf "[%q, \"-addr=:%v\"]" .Values.emailService.healthChecks.readinessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.readinessProbe.exec.probePort }}
         livenessProbe:
           periodSeconds: 5
           #periodSeconds: {{ .Values.emailService.healthChecks.livenessProbe.periodSeconds }}

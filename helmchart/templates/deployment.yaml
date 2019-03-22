@@ -11,12 +11,12 @@ spec:
       labels:
         app: emailservice
     spec:
-      terminationGracePeriodSeconds: 5
-      #terminationGracePeriodSeconds: {{ .Values.emailService.terminationGracePeriodSeconds }}
+      #terminationGracePeriodSeconds: 5
+      terminationGracePeriodSeconds: {{ .Values.emailService.terminationGracePeriodSeconds }}
       containers:
       - name: server
-        image: gcr.io/google-samples/microservices-demo/emailservice:v0.1.0
-        #image: {{ printf "%s:%s" .Values.emailService.image.repository .Values.emailService.image.tag }}
+        #image: gcr.io/google-samples/microservices-demo/emailservice:v0.1.0
+        image: {{ printf "%s:%s" .Values.emailService.image.repository .Values.emailService.image.tag }}
         ports:
         - containerPort: 8080
         #- containerPort: {{ .Values.emailService.ports.containerPort }}

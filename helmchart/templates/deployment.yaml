@@ -34,8 +34,8 @@ spec:
             #command: {{ .Values.emailService.healthChecks.livenessProbe.exec.command }}
         resources:
           #requests:
-          #  cpu: {{ .Values.cartService.resources.requests.cpu }}
-          #  memory: {{ .Values.cartService.resources.requests.memory }}
+          #  cpu: {{ .Values.emailService.resources.requests.cpu }}
+          #  memory: {{ .Values.emailService.resources.requests.memory }}
           #limits:
-          #  cpu: {{ .Values.cartService.resources.limits.cpu }}
-          #  memory: {{ .Values.cartService.resources.limits.memory }}
+          #  cpu: {{ .Values.emailService.resources.limits.cpu }}
+          #  memory: {{ .Values.emailService.resources.limits.memory }}

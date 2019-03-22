@@ -20,11 +20,11 @@ spec:
         readinessProbe:
           periodSeconds: {{ .Values.emailService.healthChecks.readinessProbe.periodSeconds }}
           exec:
-            command: {{ .Values.emailService.healthChecks.readinessProbe.exec.command }}
+            command: ["/bin/grpc_health_probe", "-addr=:8080"]
         livenessProbe:
           periodSeconds: {{ .Values.emailService.healthChecks.livenessProbe.periodSeconds }}
           exec:
-            command: {{ .Values.emailService.healthChecks.livenessProbe.exec.command }}
+            command: ["/bin/grpc_health_probe", "-addr=:8080"]
         resources:
           requests:
             cpu: {{ .Values.cartService.resources.requests.cpu }}

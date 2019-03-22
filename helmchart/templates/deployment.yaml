@@ -96,7 +96,7 @@ spec:
       terminationGracePeriodSeconds: {{ .Values.recommendationService.terminationGracePeriodSeconds }}
       containers:
       - name: server
-          image: {{ printf "%s:%s" .Values.recommendationService.image.repository .Values.recommendationService.image.tag }}
+        image: {{ printf "%s:%s" .Values.recommendationService.image.repository .Values.recommendationService.image.tag }}
         ports:
         - containerPort: {{ .Values.recommendationService.ports.containerPort }}
         readinessProbe:
@@ -193,7 +193,7 @@ spec:
       terminationGracePeriodSeconds: {{ .Values.paymentService.terminationGracePeriodSeconds }}
       containers:
       - name: server
-          image: {{ printf "%s:%s" .Values.paymentService.image.repository .Values.paymentService.image.tag }}
+        image: {{ printf "%s:%s" .Values.paymentService.image.repository .Values.paymentService.image.tag }}
         ports:
         - containerPort: {{ .Values.paymentService.ports.containerPort }}
         readinessProbe:
@@ -226,7 +226,7 @@ spec:
       terminationGracePeriodSeconds: {{ .Values.productCatalogService.terminationGracePeriodSeconds }}
       containers:
       - name: server
-          image: {{ printf "%s:%s" .Values.productCatalogService.image.repository .Values.productCatalogService.image.tag }}
+        image: {{ printf "%s:%s" .Values.productCatalogService.image.repository .Values.productCatalogService.image.tag }}
         ports:
         - containerPort: {{ .Values.productCatalogService.ports.containerPort }}
         readinessProbe:

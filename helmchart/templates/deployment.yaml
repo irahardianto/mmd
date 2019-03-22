@@ -57,21 +57,6 @@ spec:
           livenessProbe:
             exec:
               command: {{ printf "[%q, \"-addr=:%v\"]" .Values.checkoutService.healthChecks.livenessProbe.exec.probeBinaryPath .Values.emailService.healthChecks.livenessProbe.exec.probePort }}
-          env:
-          - name: PRODUCT_CATALOG_SERVICE_ADDR
-            value: {{ .Values.env.productCatalogServiceAddr }}
-          - name: SHIPPING_SERVICE_ADDR
-            value: {{ .Values.env.shippingServiceAddr }}
-          - name: PAYMENT_SERVICE_ADDR
-            value: {{ .Values.env.paymentServiceAddr }}
-          - name: EMAIL_SERVICE_ADDR
-            value: {{ .Values.env.emailServiceAddr }}
-          - name: CURRENCY_SERVICE_ADDR
-            value: {{ .Values.env.currencyServiceAddr }}
-          - name: CART_SERVICE_ADDR
-            value: {{ .Values.env.cartServiceAddr }}
-          # - name: JAEGER_SERVICE_ADDR
-          #   value: {{ .Values.env.jaegerServiceAddr }}
           resources:
             requests:
               cpu: {{ .Values.checkoutService.resources.requests.cpu }}

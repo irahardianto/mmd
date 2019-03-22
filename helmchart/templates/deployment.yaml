@@ -14,7 +14,7 @@ spec:
       terminationGracePeriodSeconds: {{ .Values.emailService.terminationGracePeriodSeconds }}
       containers:
       - name: server
-        image: {{ .Values.emailService.image.repository }}':'{{ .Values.emailService.image.tag }}
+        image: "{{ printf "%s:%s" .Values.emailService.image.repository .Values.emailService.image.tag }}"
         ports:
         - containerPort: {{ .Values.emailService.ports.containerPort }}
         readinessProbe:
